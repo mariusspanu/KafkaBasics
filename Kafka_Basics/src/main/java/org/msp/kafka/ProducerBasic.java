@@ -12,6 +12,7 @@ public class ProducerBasic {
 
         String BootstrapServers = "127.0.0.1:9092";
 
+
         //Create producer properties
 
         Properties properties = new Properties();
@@ -22,13 +23,30 @@ public class ProducerBasic {
 
         // Create producer
 
-        KafkaProducer<String, String> producer = new KafkaProducer<String, String>(properties);
+        KafkaProducer<String, String> producer = new KafkaProducer<>(properties);
+        for (int count = 0; count < 100; count++) {
+            //Create record
+            ProducerRecord<String, String> record = new ProducerRecord<>("first_topic","Hello World after win 11 migration !");
 
-        //Create record
-        ProducerRecord<String, String> record = new ProducerRecord<>("first_topic","Hello World  !");
+
+            // Execute the command every 1 minute, 100 times
+
+            // Execute the command
+            producer.send(record);
+            try {
+                // Sleep for 1 minute
+                Thread.sleep(10000); // 60,000 milliseconds = 1 minute
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            // Increment count
+            count++;
+            System.out.println(count);
+        }
+
 
         //Send data
-        producer.send(record);
+
         producer.close();
 
 
